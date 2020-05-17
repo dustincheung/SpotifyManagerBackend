@@ -25,15 +25,12 @@ const app = express();
 
 //spotify OAuth
 app.use(express.static(__dirname + '/public'))
-   .use(cors())
-   .use(cookieParser());
+	.use(cors())
+    .use(cookieParser());
 
 //************************************************
 //					    ROUTES
 //************************************************
-app.get("/", (req, res) => {
-	res.send("Landing Page")
-});
 
 //spotify OAuth
 app.use(authRoutes);

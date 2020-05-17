@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const keys = require("../config/authKeys");
 
 const User = require("../models/User");
+const uri = process.env.FRONTEND_URI || 'http://localhost:3000'; //prod heroku redirect or local dev redirect
 
 //new instance of router where all routes will be added to
 const router = express.Router();
@@ -102,7 +103,7 @@ router.get('/auth/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('http://localhost:3000/#' +              //TODO: HOW DO I REMOVE HARDOCDED REDIRECT?
+        res.redirect(uri + "/#" +              //TODO: HOW DO I REMOVE HARDOCDED REDIRECT?
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
@@ -133,7 +134,7 @@ router.get("/api/logout", async (req, res) =>{
   console.log("***********************************logout api");
   try{
     const collection = await User.collection.drop();
-    res.redirect("http://localhost:3000/");                           //TODO: HOW DO I REMOVE HARDCODED REDIRECT?
+    res.redirect(uri + "/");                           //TODO: HOW DO I REMOVE HARDCODED REDIRECT?
   }catch(err){
     console.log(err.message);
   } 
