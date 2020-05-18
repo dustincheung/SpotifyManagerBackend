@@ -96,14 +96,14 @@ router.get('/auth/callback', function(req, res) {
             console.log("That User is already in the database")
           } else {
             console.log("CREATING NEW USER")
-            const newUser = await new User({userId: body.id, accessToken: access_token, refreshToken: refresh_token});
+            const newUser = await new User({userId: body.id});
             newUser.save() 
           }
           
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect(uri + "/#" +              //TODO: HOW DO I REMOVE HARDOCDED REDIRECT?
+        res.redirect(uri + "/#" +              
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
@@ -134,7 +134,7 @@ router.get("/api/logout", async (req, res) =>{
   console.log("***********************************logout api");
   try{
     const collection = await User.collection.drop();
-    res.redirect(uri + "/");                           //TODO: HOW DO I REMOVE HARDCODED REDIRECT?
+    res.redirect(uri + "/");                           
   }catch(err){
     console.log(err.message);
   } 
