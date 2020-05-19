@@ -30,7 +30,12 @@ const generateRandomString = function(length) {
 const stateKey = 'spotify_auth_state';
 
 
-router.get('/login', function(req, res) {
+router.get('/login', async function(req, res) {
+  try{
+    const collection = await User.collection.drop();         //empty out user collection before saving a new user this                
+  }catch(err){                                               //ensures only the current user is in the collection
+    console.log(err.message);
+  } 
 
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -104,13 +109,13 @@ router.get('/auth/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect(uri + "/#" +              
+        res.redirect(uri + "/playlists/#" +              
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
           }));
       } else {
-        res.redirect('/#' +
+        res.redirect('/playlists/#' +
           querystring.stringify({
             error: 'invalid_token'
           }));
@@ -132,7 +137,7 @@ router.get("/api/current_user", async (req, res) => {
 
 //Call this route when you want to logout, it will empty our User collection
 router.get("/api/logout", async (req, res) =>{
-  console.log("***********************************logout api");
+  console.log("******** logout api ********");
   try{
     const collection = await User.collection.drop();
     res.redirect(uri + "/");                           
