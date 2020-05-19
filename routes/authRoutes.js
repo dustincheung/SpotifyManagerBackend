@@ -43,7 +43,8 @@ router.get('/login', function(req, res) {
       client_id: keys.client_id,
       scope: scope,
       redirect_uri: keys.redirect_uri,
-      state: state
+      state: state,
+      show_dialog: true
     }));
 });
 
