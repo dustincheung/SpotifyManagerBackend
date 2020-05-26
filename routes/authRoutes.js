@@ -96,7 +96,6 @@ router.get('/auth/callback', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, async function(error, response, body) {
-          //console.log(body);
           const existingUser = await User.findOne({userId: body.id});
           if(existingUser){
             console.log("That User is already in the database")
