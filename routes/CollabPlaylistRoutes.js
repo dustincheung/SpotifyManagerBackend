@@ -44,10 +44,10 @@ router.post("/collabplaylists", async(req, res) => {
 
 //UPDATE ROUTE:
 
-//DELETE ROUTE:
-router.delete("/collabplaylists/:id", async(req, res) => {
+//DELETE ROUTE: takes id from url param and removes document with that id
+router.delete("/collabplaylists/:id/delete", async(req, res) => {
 	const id = req.params.id;
-	const result = CollabPlaylist.findByIdAndRemove(id);
+	const result = await CollabPlaylist.findByIdAndRemove(id);
 	res.send(result);
 })
 
@@ -69,10 +69,14 @@ router.get("/collabplaylists/:id/tracks", async (req, res) => {
 	})
 })
 
-//CREATE ROUTE:
+//CREATE ROUTE: adds tracks to existent tracks array of collabPlaylist document, also appends the new collaborator 
 router.post("/collabplaylists/:id/tracks", async (req, res) => {
 	const id = req.params.id;
-	await CollabPlaylist.findByIdAndUpdate(id, {$addToSet: {"tracks": req.body}}, (err, playlist) => {
+	const collaborator = req.body.collaborator;
+	const collabTracks = req.body.collabTracks;
+
+	//appends new tracks and collaborators
+	await CollabPlaylist.findByIdAndUpdate(id, {$addToSet: {"collaborators": collaborator, "tracks": collabTracks}}, (err, playlist) => {
 		if(err){
 			console.log(err);
 		}else{
