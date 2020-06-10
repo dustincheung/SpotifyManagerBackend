@@ -1,4 +1,4 @@
-//imports express
+//imports
 const express = require("express");
 const request = require('request'); // "Request" library
 const cors = require('cors');
@@ -6,8 +6,11 @@ const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const keys = require("../config/authKeys");
 
+//importing db models and schema setup
 const User = require("../models/User");
-const uri = process.env.FRONTEND_URI || 'http://localhost:3000'; //prod heroku redirect or local dev redirect
+
+//prod heroku redirect or local dev redirect
+const uri = process.env.FRONTEND_URI || 'http://localhost:3000'; 
 
 //new instance of router where all routes will be added to
 const router = express.Router();
