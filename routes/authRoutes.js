@@ -103,7 +103,6 @@ router.get('/auth/callback', function(req, res) {
           if(existingUser){
             console.log("That User is already in the database")
           } else {
-            console.log("CREATING NEW USER")
             const newUser = await new User({userId: body.id});
             newUser.save() 
           }
@@ -129,11 +128,10 @@ router.get('/auth/callback', function(req, res) {
 //Returns the current user that signs on, make sure when we sign off we delete the user from the collection
 router.get("/api/current_user", async (req, res) => {
   try{
-    console.log("getting user from db")
     const current_user = await User.find();
     res.json(current_user);
   }catch(err){
-    console.log("SOMETHING WENT WRONG");
+    console.log(err);
   }
 });
 

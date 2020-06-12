@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+//schema aligns with official spotify playlist/tracks structure,  
+// but only has the essential fields being utilized
 const CollabPlaylistSchema = new mongoose.Schema({
 	name: String,
 	description: String,
