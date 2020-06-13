@@ -52,8 +52,8 @@ router.patch("/collabplaylists/:id", async(req, res) => {
 		}else{
 			res.send(playlist);
 		}
-	})
-})
+	});
+});
 
 //DELETE ROUTE: takes id from url param and removes document with that id
 router.delete("/collabplaylists/:id/delete", async(req, res) => {
@@ -77,8 +77,8 @@ router.get("/collabplaylists/:id/tracks", async (req, res) => {
 			res.send(playlist.tracks);
 		}
 
-	})
-})
+	});
+});
 
 //CREATE ROUTE: adds tracks to existent tracks array of collabPlaylist document, also appends the new collaborator 
 router.post("/collabplaylists/:id/tracks", async (req, res) => {
@@ -93,6 +93,26 @@ router.post("/collabplaylists/:id/tracks", async (req, res) => {
 		}else{
 			res.send(playlist);
 		}
-	})
-})
+	});
+});
+
+//DELETE ROUTE: deletes track from the tracks array of collabPlaylist document by filtering out tracks
+router.delete("/collabplaylists/:id/tracks/:trackName/delete", async (req, res) => {
+	const id = req.params.id;
+	const trackName = req.params.trackName;
+	const playlist = await CollabPlaylist.findById(id);
+
+	//delete track by filtering out by track name to be deleted
+	const filterTracks = playlist.tracks.filter(track => track.track.name !== trackName);
+	
+	await CollabPlaylist.findByIdAndUpdate(id, {tracks: filterTracks}, (err, playlist) => {
+		if(err){
+			console.log(err);
+		}else{
+			res.send(filterTracks);
+		}
+	});
+});
+
+//TODO: FINISH DELETE
 module.exports = router;
